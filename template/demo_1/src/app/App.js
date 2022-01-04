@@ -28,7 +28,7 @@ class App extends Component {
               <AppRoutes/>
               { SettingsPanelComponent }
             </div>
-            { footerComponent }
+            {/* { footerComponent } */}
           </div>
         </div>
       </div>

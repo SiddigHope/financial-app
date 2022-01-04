@@ -232,7 +232,7 @@ closeRightSidebar() {
                 </div>
               </div>
             </Tab>
-            <Tab eventKey="CHATS" title="CHATS">
+            {/* <Tab eventKey="CHATS" title="CHATS">
               <div>
                 <div className="d-flex align-items-center justify-content-between border-bottom">
                   <p className="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0"><Trans>FRIENDS</Trans></p>
@@ -292,7 +292,7 @@ closeRightSidebar() {
                   </li>
                 </ul>
               </div>
-            </Tab>
+            </Tab> */}
           </Tabs>
         </div>
       </div>

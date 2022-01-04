@@ -62,7 +62,7 @@ class Sidebar extends Component {
           <li className="nav-item nav-profile">
             <a href="!#" className="nav-link" onClick={evt =>evt.preventDefault()}>
               <div className="nav-profile-image">
-                <img src={ require("../../assets/images/faces/face1.jpg") } alt="profile" />
+                <img src={ require("../../assets/images/fainance/CBOS.jpg") } alt="profile" />
                 <span className="login-status online"></span> {/* change to offline or busy as needed */}
               </div>
               <div className="nav-profile-text">
@@ -74,11 +74,11 @@ class Sidebar extends Component {
           </li>
           <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
             <Link className="nav-link" to="/dashboard">
-              <span className="menu-title"><Trans>Dashboard</Trans></span>
+              <span className="menu-title"><Trans>{"الاحصائيات"}</Trans></span>
               <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
-          <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
+          {/* <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
             <div className={ this.state.basicUiMenuOpen ? 'nav-link menu-expanded' : 'nav-link' } onClick={ () => this.toggleMenuState('basicUiMenuOpen') } data-toggle="collapse">
               <span className="menu-title"><Trans>Basic UI Elements</Trans></span>
               <i className="menu-arrow"></i>
@@ -184,7 +184,7 @@ class Sidebar extends Component {
               <span className="menu-title"><Trans>Documentation</Trans></span>
               <i className="mdi mdi-file-document-box menu-icon"></i>
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
     );

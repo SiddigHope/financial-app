@@ -32,7 +32,7 @@ class Navbar extends Component {
             </form>
           </div>
           <ul className="navbar-nav navbar-nav-right">
-            <li className="nav-item nav-profile">
+            {/* <li className="nav-item nav-profile">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link">
                   <div className="nav-profile-img">
@@ -55,8 +55,8 @@ class Navbar extends Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </li>
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link count-indicator">
                   <i className="mdi mdi-email-outline"></i>
@@ -105,8 +105,8 @@ class Navbar extends Component {
                   <h6 className="p-3 mb-0 text-center cursor-pointer">4 <Trans>new messages</Trans></h6>
                 </Dropdown.Menu>
               </Dropdown>
-            </li>
-            <li className="nav-item">
+            </li> */}
+            {/* <li className="nav-item">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link count-indicator">
                   <i className="mdi mdi-bell-outline"></i>
@@ -160,12 +160,12 @@ class Navbar extends Component {
                   <h6 className="p-3 mb-0 text-center cursor-pointer"><Trans>See all notifications</Trans></h6>
                 </Dropdown.Menu>
               </Dropdown>
-            </li>
-            <li className="nav-item nav-logout d-none d-lg-block">
+            </li> */}
+            {/* <li className="nav-item nav-logout d-none d-lg-block">
               <a className="nav-link" href="!#" onClick={event => event.preventDefault()}>
                 <i className="mdi mdi-power"></i>
               </a>
-            </li>
+            </li> */}
             <li className="nav-item nav-settings d-none d-lg-block">
               <button type="button" className="nav-link border-0" onClick={this.toggleRightSidebar} >
                 <i className="mdi mdi-format-line-spacing"></i>
