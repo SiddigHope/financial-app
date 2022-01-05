@@ -29,6 +29,8 @@ const BlankPage = lazy(() => import("./general-pages/BlankPage"));
 
 const Banks = lazy(() => import("./banks/Banks"));
 
+const Currencies = lazy(() => import("./currencies/Currencies"));
+
 const Transactions = lazy(() => import("./transactions/Transactions"));
 
 class AppRoutes extends Component {
@@ -52,6 +54,8 @@ class AppRoutes extends Component {
           <Route path="/icons/mdi" component={Mdi} />
 
           <Route path="/banks" component={Banks} />
+
+          <Route path="/currencies" component={Currencies} />
 
           <Route path="/transactions" component={Transactions} />
 
