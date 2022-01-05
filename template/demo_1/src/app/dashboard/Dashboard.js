@@ -264,7 +264,7 @@ export class Dashboard extends Component {
           <h3 className="page-title">
             {" الاحصائيات "}
             <span className="page-title-icon bg-gradient-primary text-white mr-2">
-              <i className="mdi mdi-home"></i>
+              <i className="mdi mdi-chart-line"></i>
             </span>{" "}
           </h3>
           <nav aria-label="breadcrumb">
@@ -345,15 +345,15 @@ export class Dashboard extends Component {
                     <ul>
                       <li>
                         <span className="legend-dots bg-primary"></span>
-                        {"دولار امريكي"}
+                        <span style={{fontSize:14}}>{"دولار امريكي"}</span>
                       </li>
                       <li>
                         <span className="legend-dots bg-danger"></span>
-                        {"استرليني"}
+                        <span style={{fontSize:14}}>{"استرليني"}</span>
                       </li>
                       <li>
                         <span className="legend-dots bg-info"></span>
-                        {"يورو"}
+                        <span style={{fontSize:14}}>{"يورو"}</span>
                       </li>
                     </ul>
                   </div>

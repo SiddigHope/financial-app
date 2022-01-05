@@ -1,214 +1,241 @@
-import React, { Component } from 'react'
-import { Tabs, Tab } from 'react-bootstrap';
-import { Trans } from 'react-i18next';
+import React, { Component } from "react";
+import { Tabs, Tab } from "react-bootstrap";
+import { Trans } from "react-i18next";
 
 export class SettingsPanel extends Component {
-
   constructor(props) {
     super(props);
-    this.state = { 
-        todos: [
-            {
-                id: 1,
-                task: 'Pick up kids from school',
-                isCompleted: false
-            },
-            {
-                id: 2,
-                task: 'Prepare for presentation',
-                isCompleted: true
-            },
-            {
-                id: 3,
-                task: 'Print Statements',
-                isCompleted: false
-            },
-            {
-                id: 4,
-                task: 'Create invoice',
-                isCompleted: false
-            },
-            {
-                id: 5,
-                task: 'Call John',
-                isCompleted: true
-            },
-            {
-                id: 6,
-                task: 'Meeting with Alisa',
-                isCompleted: false
-            }
-        ],
-        todosRtl: [
-          {
-              id: 1,
-              task: 'التقاط الاطفال من المدرسة',
-              isCompleted: false
-          },
-          {
-              id: 2,
-              task: 'الاستعداد للعرض التقديمي الخاص بك',
-              isCompleted: true
-          },
-          {
-              id: 3,
-              task: 'طباعة البيانات',
-              isCompleted: false
-          },
-          {
-              id: 4,
-              task: 'انشاء الفواتير',
-              isCompleted: false
-          },
-          {
-              id: 5,
-              task: 'استدعاء جون',
-              isCompleted: true
-          },
-          {
-              id: 6,
-              task: 'مقابلة مع اليسا',
-              isCompleted: false
-          }
+    this.state = {
+      todos: [
+        {
+          id: 1,
+          task: "Pick up kids from school",
+          isCompleted: false,
+        },
+        {
+          id: 2,
+          task: "Prepare for presentation",
+          isCompleted: true,
+        },
+        {
+          id: 3,
+          task: "Print Statements",
+          isCompleted: false,
+        },
+        {
+          id: 4,
+          task: "Create invoice",
+          isCompleted: false,
+        },
+        {
+          id: 5,
+          task: "Call John",
+          isCompleted: true,
+        },
+        {
+          id: 6,
+          task: "Meeting with Alisa",
+          isCompleted: false,
+        },
       ],
-        inputValue: '',
-    }
+      todosRtl: [
+        {
+          id: 1,
+          task: "التقاط الاطفال من المدرسة",
+          isCompleted: false,
+        },
+        {
+          id: 2,
+          task: "الاستعداد للعرض التقديمي الخاص بك",
+          isCompleted: true,
+        },
+        {
+          id: 3,
+          task: "طباعة البيانات",
+          isCompleted: false,
+        },
+        {
+          id: 4,
+          task: "انشاء الفواتير",
+          isCompleted: false,
+        },
+        {
+          id: 5,
+          task: "استدعاء جون",
+          isCompleted: true,
+        },
+        {
+          id: 6,
+          task: "مقابلة مع اليسا",
+          isCompleted: false,
+        },
+      ],
+      inputValue: "",
+    };
 
     this.statusChangedHandler = this.statusChangedHandler.bind(this);
     this.addTodo = this.addTodo.bind(this);
     this.removeTodo = this.removeTodo.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
-}
+  }
 
-statusChangedHandler(event, id) {
-    const todo = {...this.state.todos[id]};
+  statusChangedHandler(event, id) {
+    const todo = { ...this.state.todos[id] };
     todo.isCompleted = event.target.checked;
 
     const todos = [...this.state.todos];
     todos[id] = todo;
 
     this.setState({
-        todos: todos
-    })
-}
-statusChangedHandlerRtl(event, id) {
-  const todoRtl = {...this.state.todosRtl[id]};
-  todoRtl.isCompleted = event.target.checked;
+      todos: todos,
+    });
+  }
+  statusChangedHandlerRtl(event, id) {
+    const todoRtl = { ...this.state.todosRtl[id] };
+    todoRtl.isCompleted = event.target.checked;
 
-  const todosRtl = [...this.state.todosRtl];
-  todosRtl[id] = todoRtl;
+    const todosRtl = [...this.state.todosRtl];
+    todosRtl[id] = todoRtl;
 
-  this.setState({
-      todosRtl: todosRtl
-  })
-}
+    this.setState({
+      todosRtl: todosRtl,
+    });
+  }
 
-addTodo (event) {
+  addTodo(event) {
     event.preventDefault();
 
     const todos = [...this.state.todos];
     todos.unshift({
-        id: todos.length ? todos[todos.length - 1].id + 1 : 1,
-        task: this.state.inputValue,
-        isCompleted: false
-        
-    })
+      id: todos.length ? todos[todos.length - 1].id + 1 : 1,
+      task: this.state.inputValue,
+      isCompleted: false,
+    });
 
     this.setState({
-        todos: todos,
-        inputValue: ''
-    })
-}
-addTodoRtl (event) {
-  event.preventDefault();
+      todos: todos,
+      inputValue: "",
+    });
+  }
+  addTodoRtl(event) {
+    event.preventDefault();
 
-  const todosRtl = [...this.state.todosRtl];
-  todosRtl.unshift({
+    const todosRtl = [...this.state.todosRtl];
+    todosRtl.unshift({
       id: todosRtl.length ? todosRtl[todosRtl.length - 1].id + 1 : 1,
       task: this.state.inputValue,
-      isCompleted: false
-      
-  })
+      isCompleted: false,
+    });
 
-  this.setState({
+    this.setState({
       todosRtl: todosRtl,
-      inputValue: ''
-  })
-}
+      inputValue: "",
+    });
+  }
 
-removeTodo (index) {
+  removeTodo(index) {
     const todos = [...this.state.todos];
     todos.splice(index, 1);
 
     this.setState({
-        todos: todos
-    })
-}
-removeTodoRtl (index) {
-  const todosRtl = [...this.state.todosRtl];
-  todosRtl.splice(index, 1);
-
-  this.setState({
-      todosRtl: todosRtl
-  })
-}
-
-inputChangeHandler(event) {
-    this.setState({
-        inputValue: event.target.value
+      todos: todos,
     });
-}
+  }
+  removeTodoRtl(index) {
+    const todosRtl = [...this.state.todosRtl];
+    todosRtl.splice(index, 1);
 
-closeRightSidebar() {
-  document.querySelector('.right-sidebar').classList.remove('open');
-  //alert("abc")
-}
+    this.setState({
+      todosRtl: todosRtl,
+    });
+  }
+
+  inputChangeHandler(event) {
+    this.setState({
+      inputValue: event.target.value,
+    });
+  }
+
+  closeRightSidebar() {
+    document.querySelector(".right-sidebar").classList.remove("open");
+    //alert("abc")
+  }
 
   render() {
     return (
       <div>
         {/* <div id="settings-trigger"><i className="mdi mdi-settings"></i></div> */}
         <div id="right-sidebar" className="settings-panel right-sidebar">
-          <i className="settings-close mdi mdi-close"  onClick={this.closeRightSidebar}></i>
-          <Tabs defaultActiveKey="TODOLIST" className="bg-gradient-primary" id="uncontrolled-tab-example">
+          <i
+            className="settings-close mdi mdi-close"
+            onClick={this.closeRightSidebar}
+          ></i>
+          <Tabs
+            defaultActiveKey="TODOLIST"
+            className="bg-gradient-primary"
+            id="uncontrolled-tab-example"
+          >
             <Tab eventKey="TODOLIST" title="TO DO LIST" className="test-tab">
               <div>
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="px-3">
                       <div>
-                        <h4 className="card-title"><Trans>Todo List</Trans></h4>
-                        <form  className="add-items d-flex" onSubmit={this.addTodo}>
-                          <input 
-                            type="text" 
-                            className="form-control h-auto" 
-                            placeholder="What do you need to do today?" 
-                            value={this.state.inputValue} 
+                        <h4 className="card-title">
+                          <Trans>Todo List</Trans>
+                        </h4>
+                        <form
+                          className="add-items d-flex"
+                          onSubmit={this.addTodo}
+                        >
+                          <input
+                            type="text"
+                            className="form-control h-auto"
+                            placeholder="What do you need to do today?"
+                            value={this.state.inputValue}
                             onChange={this.inputChangeHandler}
-                            required />
-                          <button type="submit" className="btn btn-gradient-primary font-weight-bold"><Trans>Add</Trans></button>
+                            required
+                          />
+                          <button
+                            type="submit"
+                            className="btn btn-gradient-primary font-weight-bold"
+                          >
+                            <Trans>Add</Trans>
+                          </button>
                         </form>
                         <div className="list-wrapper">
                           <ul className="todo-list">
-                              {this.state.todos.map((todo, index) =>{
-                                return <ListItem 
-                                isCompleted={todo.isCompleted}
-                                changed={(event) => this.statusChangedHandler(event, index)}
-                                key={todo.id}
-                                remove={() => this.removeTodo(index) }
-                                >{todo.task}</ListItem>
-                              })}
-                            </ul>
-                            <ul className="todo-list rtl-todo">
-                              {this.state.todosRtl.map((todoRtl, index) =>{
-                                return <ListItem 
-                                isCompleted={todoRtl.isCompleted}
-                                changed={(event) => this.statusChangedHandler(event, index)}
-                                key={todoRtl.id}
-                                remove={() => this.removeTodoRtl(index) }
-                                >{todoRtl.task}</ListItem>
-                              })}
-                            </ul>
+                            {this.state.todos.map((todo, index) => {
+                              return (
+                                <ListItem
+                                  isCompleted={todo.isCompleted}
+                                  changed={(event) =>
+                                    this.statusChangedHandler(event, index)
+                                  }
+                                  key={todo.id}
+                                  remove={() => this.removeTodo(index)}
+                                >
+                                  {todo.task}
+                                </ListItem>
+                              );
+                            })}
+                          </ul>
+                          <ul className="todo-list rtl-todo">
+                            {this.state.todosRtl.map((todoRtl, index) => {
+                              return (
+                                <ListItem
+                                  isCompleted={todoRtl.isCompleted}
+                                  changed={(event) =>
+                                    this.statusChangedHandler(event, index)
+                                  }
+                                  key={todoRtl.id}
+                                  remove={() => this.removeTodoRtl(index)}
+                                >
+                                  {todoRtl.task}
+                                </ListItem>
+                              );
+                            })}
+                          </ul>
                         </div>
                       </div>
                     </div>
@@ -217,18 +244,30 @@ closeRightSidebar() {
                 <div className="events py-4 border-bottom px-3">
                   <div className="wrapper d-flex mb-2">
                     <i className="mdi mdi-circle-outline text-primary mr-2"></i>
-                    <span><Trans>Feb</Trans> 11 2018</span>
+                    <span>
+                      <Trans>Feb</Trans> 11 2018
+                    </span>
                   </div>
-                  <p className="mb-0 font-weight-thin text-gray"><Trans>Creating component page</Trans></p>
-                  <p className="text-gray mb-0"><Trans>build a js based app</Trans></p>
+                  <p className="mb-0 font-weight-thin text-gray">
+                    <Trans>Creating component page</Trans>
+                  </p>
+                  <p className="text-gray mb-0">
+                    <Trans>build a js based app</Trans>
+                  </p>
                 </div>
                 <div className="events pt-4 px-3">
                   <div className="wrapper d-flex mb-2">
                     <i className="mdi mdi-circle-outline text-primary mr-2"></i>
-                    <span><Trans>Feb</Trans> 7 2018</span>
+                    <span>
+                      <Trans>Feb</Trans> 7 2018
+                    </span>
                   </div>
-                  <p className="mb-0 font-weight-thin text-gray"><Trans>Meeting with Alisa</Trans></p>
-                  <p className="text-gray mb-0 "><Trans>Call Sarah Graves</Trans></p>
+                  <p className="mb-0 font-weight-thin text-gray">
+                    <Trans>Meeting with Alisa</Trans>
+                  </p>
+                  <p className="text-gray mb-0 ">
+                    <Trans>Call Sarah Graves</Trans>
+                  </p>
                 </div>
               </div>
             </Tab>
@@ -296,24 +335,29 @@ closeRightSidebar() {
           </Tabs>
         </div>
       </div>
-    )
+    );
   }
 }
 const ListItem = (props) => {
-    
   return (
-      <li className={(props.isCompleted ? 'completed' : null)}>
-          <div className="form-check">
-              <label htmlFor="" className="form-check-label"> 
-                  <input className="checkbox" type="checkbox" 
-                      checked={props.isCompleted} 
-                      onChange={props.changed} 
-                      /> {props.children} <i className="input-helper"></i>
-              </label>
-          </div>
-          <i className="remove mdi mdi-close-circle-outline" onClick={props.remove}></i>
-      </li>
-  )
+    <li className={props.isCompleted ? "completed" : null}>
+      <div className="form-check">
+        <label htmlFor="" className="form-check-label">
+          <input
+            className="checkbox"
+            type="checkbox"
+            checked={props.isCompleted}
+            onChange={props.changed}
+          />{" "}
+          {props.children} <i className="input-helper"></i>
+        </label>
+      </div>
+      <i
+        className="remove mdi mdi-close-circle-outline"
+        onClick={props.remove}
+      ></i>
+    </li>
+  );
 };
 
-export default SettingsPanel
+export default SettingsPanel;
