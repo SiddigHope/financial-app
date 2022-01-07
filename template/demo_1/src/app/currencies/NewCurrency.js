@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function NewBank(props) {
+export default function NewCurrency(props) {
   const { toggleModal, modalStatus } = props;
   //   const [open, setOpen] = React.useState(false);
   //   const handleOpen = () => setOpen(true);
@@ -53,10 +53,8 @@ export default function NewBank(props) {
 
 function ModalContent() {
   const [name, setName] = React.useState("");
-  const [image, setImage] = React.useState(require('./../../assets/images/fainance/CBOS.jpg'));
-  const [address, setAddress] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [sell, setSell] = React.useState("");
+  const [buy, setBuy] = React.useState("");
 
   const handleSubmit = (event) => {
     console.log(event);
@@ -64,73 +62,50 @@ function ModalContent() {
 
   const handleValueChange = (event) => {
     switch (event.target.name) {
-      case "email":
-        setEmail(event.target.value);
-        break;
       case "name":
         setName(event.target.value);
         break;
-      case "address":
-        setAddress(event.target.value);
+      case "sell":
+        setSell(event.target.value);
         break;
-      case "image":
-        // setImage(require(event.target.file[0]));
-        break;
-      case "password":
-        setPassword(event.target.value);
+      case "buy":
+        setBuy(event.target.value);
         break;
     }
   };
 
   return (
-    <Box sx={style} className="bg-gradient-info">
+    <Box sx={style} className="bg-gradient-primary">
       <form onSubmit={handleSubmit} className="form-group">
         <input
           type="text"
           style={inputStyle}
           name="name"
           className="form-control"
-          placeholder="اسم البنك"
+          placeholder="اسم العملة"
           onChange={handleValueChange}
           required
         />
         <input
-          type="text"
-          name="address"
+          type="number"
+          name="buy"
+          step='any'
           style={inputStyle}
           className="form-control"
-          placeholder="عنوان البنك"
+          placeholder="سعر الشراء"
           onChange={handleValueChange}
           required
         />
         <input
-          type="email"
-          name="email"
+          type="number"
+          name="sell"
+          step='any'
           style={inputStyle}
           className="form-control"
-          placeholder="ايميل البنك"
+          placeholder="سعر البيع"
           onChange={handleValueChange}
           required
         />
-        <input
-          type="password"
-          name="password"
-          style={inputStyle}
-          className="form-control"
-          placeholder="كلمة المرور"
-          onChange={handleValueChange}
-          required
-        />
-        <input
-          type="file"
-          name="image"
-          style={inputStyle}
-          className="form-control"
-          placeholder="شعار البنك"
-          onChange={handleValueChange}
-          required
-        />
-        {/* <img src={image} style={{ width: 100, height: 100 }} /> */}
         <input
           type="submit"
           style={buttonStyle}

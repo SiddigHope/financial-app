@@ -16,12 +16,12 @@ class Navbar extends Component {
         <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           {/* <Link className="navbar-brand brand-logo" to="/"><img src={require('../../assets/images/logo.svg')} alt="logo" /></Link> */}
           <Link className="navbar-brand brand-logo" to="/">
+            <span>{"  SudaBank  "}</span>
             <img
               style={{ height: 40, width: 40 }}
               src={require("../../assets/images/fainance/unnamed.jpg")}
               alt="logo"
             />
-            <span>{"  SudaBank  "}</span>
           </Link>
           <Link className="navbar-brand brand-logo-mini" to="/">
             <img
@@ -49,7 +49,7 @@ class Navbar extends Component {
               </div>
             </form>
           </div> */}
-          <ul className="navbar-nav navbar-nav-right">
+          <ul className="navbar-nav navbar-nav-right" style={{flex: 1, alignItems: 'center', justifyContent: 'flex-end'}}>
             {/* <li className="nav-item nav-profile">
               <Dropdown alignRight>
                 <Dropdown.Toggle className="nav-link">

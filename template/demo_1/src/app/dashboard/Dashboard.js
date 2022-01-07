@@ -260,26 +260,25 @@ export class Dashboard extends Component {
             </span>
           </div> */}
         </div>
-        <div style={{ flexDirection: "row-reverse" }} className="page-header">
+        <div className="page-header">
           <h3 className="page-title">
-            {" الاحصائيات "}
             <span className="page-title-icon bg-gradient-primary text-white mr-2">
               <i className="mdi mdi-chart-line"></i>
-            </span>{" "}
+            </span>
+            {" الاحصائيات "}
           </h3>
           <nav aria-label="breadcrumb">
             <ul className="breadcrumb">
               <li className="breadcrumb-item active" aria-current="page">
+                <span>{" مراجعة "}</span>
                 <i className="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                <span></span>
-                {" مراجعة "}
               </li>
             </ul>
           </nav>
         </div>
         <div className="row">
           <div className="col-md-4 stretch-card grid-margin">
-            <div className="card bg-gradient-danger card-img-holder text-white">
+            <div className="card shadow bg-gradient-danger card-img-holder text-white">
               <div className="card-body">
                 <img
                   src={require("../../assets/images/dashboard/circle.svg")}
@@ -296,7 +295,7 @@ export class Dashboard extends Component {
             </div>
           </div>
           <div className="col-md-4 stretch-card grid-margin">
-            <div className="card bg-gradient-info card-img-holder text-white">
+            <div className="card shadow bg-gradient-info card-img-holder text-white">
               <div className="card-body">
                 <img
                   src={require("../../assets/images/dashboard/circle.svg")}
@@ -313,7 +312,7 @@ export class Dashboard extends Component {
             </div>
           </div>
           <div className="col-md-4 stretch-card grid-margin">
-            <div className="card bg-gradient-success card-img-holder text-white">
+            <div className="card shadow bg-gradient-success card-img-holder text-white">
               <div className="card-body">
                 <img
                   src={require("../../assets/images/dashboard/circle.svg")}
@@ -332,7 +331,7 @@ export class Dashboard extends Component {
         </div>
         <div className="row">
           <div className="col-md-7 grid-margin stretch-card">
-            <div className="card">
+            <div className="card shadow">
               <div className="card-body">
                 <div className="clearfix mb-4">
                   <h4 className="card-title float-right">
@@ -345,15 +344,15 @@ export class Dashboard extends Component {
                     <ul>
                       <li>
                         <span className="legend-dots bg-primary"></span>
-                        <span style={{fontSize:14}}>{"دولار امريكي"}</span>
+                        <span style={{ fontSize: 14 }}>{" دولار امريكي "}</span>
                       </li>
                       <li>
                         <span className="legend-dots bg-danger"></span>
-                        <span style={{fontSize:14}}>{"استرليني"}</span>
+                        <span style={{ fontSize: 14 }}>{" استرليني "}</span>
                       </li>
                       <li>
                         <span className="legend-dots bg-info"></span>
-                        <span style={{fontSize:14}}>{"يورو"}</span>
+                        <span style={{ fontSize: 14 }}>{" يورو "}</span>
                       </li>
                     </ul>
                   </div>
@@ -369,7 +368,7 @@ export class Dashboard extends Component {
             </div>
           </div>
           <div className="col-md-5 grid-margin stretch-card">
-            <div className="card">
+            <div className="card shadow">
               <div className="card-body">
                 <h4 style={{ textAlign: "right" }} className="card-title">
                   {"اكثر البنوك استخداماً"}
@@ -425,13 +424,13 @@ export class Dashboard extends Component {
         </div>
         <div className="row">
           <div className="col-12 grid-margin">
-            <div className="card">
+            <div className="card shadow">
               <div className="card-body">
                 <h4 className="card-title float-right">{"العمليات الاخيرة"}</h4>
                 <div className="table-responsive">
-                  <table className="table">
+                  <table className="table text-center">
                     <thead>
-                      <tr>
+                      <tr className="text-center">
                         <th> {"البنك"} </th>
                         <th> {"التعليق"} </th>
                         <th> {"حالة الطلب"} </th>
@@ -444,7 +443,7 @@ export class Dashboard extends Component {
                         <tr>
                           <td>
                             <img src={item.icon} className="mr-2" alt="face" />
-                            {item.bank}
+                            {" "}{item.bank}{" "}
                           </td>
                           <td> {item.comment} </td>
                           <td>
@@ -472,19 +471,19 @@ export class Dashboard extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-5 grid-margin stretch-card">
+          {/* <div className="col-lg-5 grid-margin stretch-card">
             <div className="card">
               <div className="card-body p-0 d-flex">
-                {/* <div className="dashboard-custom-date-picker">
+                <div className="dashboard-custom-date-picker">
                   <DatePicker
                     inline
                     selected={this.state.startDate}
                     onChange={this.handleChange}
                   />
-                </div> */}
+                </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* <div className="col-lg-7 grid-margin stretch-card">
             <div className="card">
               <div className="card-body">
@@ -550,7 +549,7 @@ export class Dashboard extends Component {
         </div>
         <div className="row">
           <div className="col-xl-7 grid-margin stretch-card">
-            <div className="card">
+            <div className="card shadow">
               <div className="card-body">
                 <h4 style={{ textAlign: "right" }} className="card-title">
                   احصائبات الخزينة
@@ -559,15 +558,18 @@ export class Dashboard extends Component {
                   <table className="table">
                     <thead>
                       <tr>
-                        <th> - </th>
-                        <th> اخر عملبة </th>
-                        <th> البنك </th>
                         <th> # </th>
+                        <th> البنك </th>
+                        <th> اخر عملبة </th>
+                        <th> - </th>
                       </tr>
                     </thead>
                     <tbody>
                       {banksReserved.map((item) => (
                         <tr>
+                          <td> {item.id} </td>
+                          <td> {item.name} </td>
+                          <td> {item.lastUpdated} </td>
                           <td width="30%">
                             <ProgressBar
                               animated={true}
@@ -577,9 +579,6 @@ export class Dashboard extends Component {
                               dir="rtl"
                             />
                           </td>
-                          <td> {item.lastUpdated} </td>
-                          <td> {item.name} </td>
-                          <td> {item.id} </td>
                         </tr>
                       ))}
                       {/* <tr>
@@ -636,43 +635,10 @@ export class Dashboard extends Component {
               </div>
             </div>
           </div>
-          <div className="col-xl-5 grid-margin stretch-card">
-            <div className="card">
-              <div className="card-body">
-                <h4 className="card-title text-white">Todo</h4>
-                {/* <form className="add-items d-flex" onSubmit={this.addTodo}>
-                  <input
-                    type="text"
-                    className="form-control h-auto"
-                    placeholder="What do you need to do today?"
-                    value={this.state.inputValue}
-                    onChange={this.inputChangeHandler}
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="btn btn-gradient-primary font-weight-bold px-lg-4 px-3"
-                  >
-                    Add
-                  </button>
-                </form> */}
-                <div className="list-wrapper">
-                  {/* <ul className="d-flex flex-column todo-list">
-                    {this.state.todos.map((todo, index) => {
-                      return (
-                        <ListItem
-                          isCompleted={todo.isCompleted}
-                          changed={(event) =>
-                            this.statusChangedHandler(event, index)
-                          }
-                          key={todo.id}
-                          remove={() => this.removeTodo(index)}
-                        >
-                          {todo.task}
-                        </ListItem>
-                      );
-                    })}
-                  </ul> */}
+          <div className="col-lg-5 grid-margin stretch-card">
+            <div className="card shadow">
+              <div className="card-body p-0 d-flex">
+                <div className="dashboard-custom-date-picker">
                   <DatePicker
                     inline
                     selected={this.state.startDate}

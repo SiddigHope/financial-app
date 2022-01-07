@@ -73,27 +73,33 @@ class Sidebar extends Component {
             </a>
           </li>
           <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link" to="/dashboard">
+            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/dashboard">
+              <i style={{marginLeft: 0}} className="mdi mdi-chart-line menu-icon"></i>
               <span className="menu-title"><Trans>{"الاحصائيات"}</Trans></span>
-              <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
           <li className={ this.isPathActive('/banks') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link" to="/banks">
+            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/banks">
+              <i style={{marginLeft: 0}} className="mdi mdi-bank menu-icon"></i>
               <span className="menu-title"><Trans>{"البنوك"}</Trans></span>
-              <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
           <li className={ this.isPathActive('/transactions') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link" to="/transactions">
+            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/transactions">
+              <i style={{marginLeft: 0}} className="mdi mdi-settings menu-icon"></i>
               <span className="menu-title"><Trans>{"العمليات"}</Trans></span>
-              <i className="mdi mdi-home menu-icon"></i>
             </Link>
           </li>
           <li className={ this.isPathActive('/currencies') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link" to="/currencies">
+            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/currencies">
+              <i style={{marginLeft: 0}} className="mdi mdi-cash menu-icon"></i>
               <span className="menu-title"><Trans>{"اسعار الصرف"}</Trans></span>
-              <i className="mdi mdi-home menu-icon"></i>
+            </Link>
+          </li>
+          <li className={ this.isPathActive('/reports') ? 'nav-item active' : 'nav-item' }>
+            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/reports">
+              <i style={{marginLeft: 0}} className="mdi mdi-receipt menu-icon"></i>
+              <span className="menu-title"><Trans>{"التقارير"}</Trans></span>
             </Link>
           </li>
           {/* <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
