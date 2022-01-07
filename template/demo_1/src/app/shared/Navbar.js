@@ -205,7 +205,7 @@ class Navbar extends Component {
               <button
                 type="button"
                 className="nav-link border-0"
-                onClick={this.toggleRightSidebar}
+                // onClick={this.toggleRightSidebar}
               >
                 <i className="mdi mdi-format-line-spacing"></i>
               </button>
