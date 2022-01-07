@@ -4,20 +4,52 @@ import { GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import { centralTransactions } from "../../data";
 
 const columns = [
-  {  headerAlign: 'center', field: "id", headerName: "#", width: 150, align: "center" },
-  {  headerAlign: 'center', field: "bank", headerName: "اسم البنك", width: 150, align: "center" },
   {
-     headerAlign: 'center', field: "currencyType",
+    headerAlign: "center",
+    field: "id",
+    headerName: "#",
+    width: 150,
+    align: "center",
+  },
+  {
+    headerAlign: "center",
+    field: "bank",
+    headerName: "اسم البنك",
+    width: 150,
+    align: "center",
+  },
+  {
+    headerAlign: "center",
+    field: "currencyType",
     headerName: "نوع العملة",
     width: 150,
     align: "center",
   },
-  {  headerAlign: 'center', field: "price", headerName: "القيمة", width: 150, align: "center" },
-  {  headerAlign: 'center', field: "comment", headerName: "تعليق مصاحب", width: 150, align: "center" },
-//   {  headerAlign: 'center', field: "status", headerName: "حالة الطلب", width: 150, align: "center" },
-  {  headerAlign: 'center', field: "date", headerName: "التاريخ", width: 150, align: "center" },
   {
-     headerAlign: 'center', field: "status",
+    headerAlign: "center",
+    field: "price",
+    headerName: "القيمة",
+    width: 150,
+    align: "center",
+  },
+  {
+    headerAlign: "center",
+    field: "comment",
+    headerName: "تعليق مصاحب",
+    width: 150,
+    align: "center",
+  },
+  //   {  headerAlign: 'center', field: "status", headerName: "حالة الطلب", width: 150, align: "center" },
+  {
+    headerAlign: "center",
+    field: "date",
+    headerName: "التاريخ",
+    width: 150,
+    align: "center",
+  },
+  {
+    headerAlign: "center",
+    field: "status",
     headerName: "حالة الطلب",
     width: 150,
     editable: true,
@@ -37,10 +69,11 @@ const columns = [
     ),
   },
   {
-     headerAlign: 'center', field: "icon",
+    headerAlign: "center",
+    field: "icon",
     headerName: "شعار البنك",
     width: 150,
-    
+
     editable: true,
     align: "center",
     renderCell: (params) => (

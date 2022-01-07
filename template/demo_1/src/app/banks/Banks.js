@@ -64,10 +64,11 @@ export default class Banks extends Component {
     });
   }
 
-  toggleModal = (toggleModal) => {
+  toggleModal = (modalStatus) => {
     this.setState({
-      toggleModal,
+      toggleModal: modalStatus,
     });
+    // console.log(modalStatus)
   };
 
   render() {
@@ -75,13 +76,17 @@ export default class Banks extends Component {
       <div>
         <div style={{ marginBottom: 20 }}>
           <button
+            onClick={() => this.toggleModal(true)}
             style={{ alignSelf: "flex-end", height: 40, color: "#FFF" }}
             className="btn btn-info btn-fw"
           >
             {"بنك جديد"}
           </button>
         </div>
-        {/* <NewBank toggleModal={this.toggleModal} modalStatus={this.state.toggleModal} /> */}
+        <NewBank
+          toggleModal={this.toggleModal}
+          modalStatus={this.state.toggleModal}
+        />
         <DataGridView columns={columns} rows={this.state.rows} />
       </div>
     );

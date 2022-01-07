@@ -9,9 +9,10 @@ export default function DataGridView(props) {
   const { columns, rows } = props;
 
   return (
-    <div style={{ height: "70vh", width: "100%" }}>
+    <div className="shadow" style={{ height: "70vh", width: "100%" }}>
       <DataGrid
-        style={{backgroundColor:'#FFF'}}
+        style={{ backgroundColor: "#FFF", borderRadius: 4, padding: 10 }}
+        className="card"
         rows={rows}
         columns={columns}
         components={{
