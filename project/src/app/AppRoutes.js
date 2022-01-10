@@ -12,6 +12,8 @@ const Currencies = lazy(() => import("./currencies/Currencies"));
 
 const Transactions = lazy(() => import("./transactions/Transactions"));
 
+const Users = lazy(() => import("./users/banks/Users"));
+
 class AppRoutes extends Component {
   render() {
     return (
@@ -26,6 +28,8 @@ class AppRoutes extends Component {
           <Route path="/transactions" component={Transactions} />
 
           <Route path="/adminlogin" component={SuperAdminLogin} />
+
+          <Route path="/banks-users" component={Users} />
 
           <Redirect to="/dashboard" />
         </Switch>

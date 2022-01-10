@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import DataGridView from "../shared/DataGridView";
-import { GridRowsProp, GridColDef } from "@mui/x-data-grid";
+// import { GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import { centralTransactions } from "../../data";
 
 const columns = [
@@ -47,40 +47,64 @@ const columns = [
     width: 150,
     align: "center",
   },
+  // {
+  //   headerAlign: "center",
+  //   field: "status",
+  //   headerName: "حالة الطلب",
+  //   width: 150,
+  //   editable: true,
+  //   align: "center",
+  //   renderCell: (params) => (
+  //     <label
+  //       className={
+  //         params.value == "pending"
+  //           ? "badge badge-gradient-warning"
+  //           : params.value == "done"
+  //           ? "badge badge-gradient-success"
+  //           : "badge badge-gradient-danger"
+  //       }
+  //     >
+  //       {params.value}
+  //     </label>
+  //   ),
+  // },
   {
     headerAlign: "center",
     field: "status",
-    headerName: "حالة الطلب",
-    width: 150,
-    editable: true,
-    align: "center",
-    renderCell: (params) => (
-      <label
-        className={
-          params.value == "pending"
-            ? "badge badge-gradient-warning"
-            : params.value == "done"
-            ? "badge badge-gradient-success"
-            : "badge badge-gradient-danger"
-        }
-      >
-        {params.value}
-      </label>
-    ),
-  },
-  {
-    headerAlign: "center",
-    field: "icon",
-    headerName: "شعار البنك",
+    headerName: "تغيير حالة المعاملة",
     width: 150,
 
     editable: true,
     align: "center",
     renderCell: (params) => (
-      <img
-        src={params.value}
-        style={{ width: 60, height: 60, borderRadius: 30 }}
-      />
+      <>
+        {params.value == "done" ? (
+          <div>
+            <button className="btn btn-sm btn-gradient-success">
+              {" "}
+              {"تم التاكيد"}{" "}
+            </button>
+          </div>
+        ) : params.value == "rejected" ? (
+          <div>
+            <button className="btn btn-sm btn-gradient-danger">
+              {" "}
+              {"تم الرفض"}{" "}
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button className="btn btn-sm btn-gradient-danger">
+              {" "}
+              {"رفض"}{" "}
+            </button>
+            <button className="btn btn-sm btn-gradient-success">
+              {" "}
+              {"تأكيد"}{" "}
+            </button>
+          </div>
+        )}
+      </>
     ), // renderCell will render the component
   },
 ];
@@ -110,7 +134,12 @@ export default class Transactions extends Component {
     return (
       <div>
         {/* <NewBank toggleModal={this.toggleModal} modalStatus={this.state.toggleModal} /> */}
-        <DataGridView columns={columns} rows={this.state.rows} />
+        <DataGridView
+          title={"جميع المعاملات مع البنوك"}
+          page={"trans"}
+          columns={columns}
+          rows={this.state.rows}
+        />
       </div>
     );
   }

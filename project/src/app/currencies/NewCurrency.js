@@ -2,9 +2,13 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import {
+  storeNewCurrency,
+  updateCurrency,
+} from "../shared/functions/currencies";
+// import Fade from "@mui/material/Fade";
+// import Button from "@mui/material/Button";
+// import Typography from "@mui/material/Typography";
 
 const style = {
   position: "absolute",
@@ -20,18 +24,14 @@ const style = {
 };
 
 export default function NewCurrency(props) {
-  const { toggleModal, modalStatus } = props;
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
+  const { toggleModal, modalStatus, updateData, item, type } = props;
 
   React.useEffect(() => {
-    console.log(modalStatus);
-  }, [modalStatus]);
+    console.log(item.length);
+  }, []);
 
   return (
     <div>
-      {/* <Button onClick={() => toggleModal(true)}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -43,21 +43,44 @@ export default function NewCurrency(props) {
           timeout: 500,
         }}
       >
-        {/* <Fade in={modalStatus}> */}
-        <ModalContent />
-        {/* </Fade> */}
+        <ModalContent
+          updateData={updateData}
+          item={item}
+          type={type}
+          toggleModal={toggleModal}
+        />
       </Modal>
     </div>
   );
 }
 
-function ModalContent() {
-  const [name, setName] = React.useState("");
-  const [sell, setSell] = React.useState("");
-  const [buy, setBuy] = React.useState("");
+function ModalContent(props) {
+  const { updateData, toggleModal, item, type } = props;
+  const [name, setName] = React.useState(
+    type == "update" ? item.currency.name : ""
+  );
+  const [sell, setSell] = React.useState(
+    type == "update" ? item.sale_price : ""
+  );
+  const [buy, setBuy] = React.useState(type == "update" ? item.buy_price : "");
 
-  const handleSubmit = (event) => {
-    console.log(event);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = {
+      sale_price: sell,
+      buy_price: buy,
+      name,
+    };
+
+    const stored =
+      type == "update"
+        ? await updateCurrency(item.id, data)
+        : await storeNewCurrency(data);
+
+    if (stored) {
+      updateData();
+      toggleModal(false);
+    }
   };
 
   const handleValueChange = (event) => {
@@ -81,30 +104,33 @@ function ModalContent() {
           type="text"
           style={inputStyle}
           name="name"
+          value={name}
           className="form-control"
           placeholder="اسم العملة"
           onChange={handleValueChange}
-          required
-        />
-        <input
-          type="number"
-          name="buy"
-          step='any'
-          style={inputStyle}
-          className="form-control"
-          placeholder="سعر الشراء"
-          onChange={handleValueChange}
-          required
+          required={type == "update" ? false : true}
         />
         <input
           type="number"
           name="sell"
-          step='any'
+          step="any"
           style={inputStyle}
+          value={sell}
+          className="form-control"
+          placeholder="سعر الشراء"
+          onChange={handleValueChange}
+          required={type == "update" ? false : true}
+        />
+        <input
+          type="number"
+          name="buy"
+          step="any"
+          style={inputStyle}
+          value={buy}
           className="form-control"
           placeholder="سعر البيع"
           onChange={handleValueChange}
-          required
+          required={type == "update" ? false : true}
         />
         <input
           type="submit"

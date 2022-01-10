@@ -2,7 +2,7 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { storeNewBank, updateBank } from "../shared/functions/banks";
+import { storeNewBankUser } from "../shared/functions/users/banks";
 // import Fade from "@mui/material/Fade";
 // import Button from "@mui/material/Button";
 // import Typography from "@mui/material/Typography";
@@ -20,8 +20,8 @@ const style = {
   p: 4,
 };
 
-export default function NewBank(props) {
-  const { toggleModal, modalStatus, updateData, item, type } = props;
+export default function NewUser(props) {
+  const { toggleUserModal, modalStatus, id } = props;
   //   const [open, setOpen] = React.useState(false);
   //   const handleOpen = () => setOpen(true);
   //   const handleClose = () => setOpen(false);
@@ -32,12 +32,12 @@ export default function NewBank(props) {
 
   return (
     <div>
-      {/* <Button onClick={() => toggleModal(true)}>Open modal</Button> */}
+      {/* <Button onClick={() => toggleUserModal(true)}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={modalStatus}
-        onClose={() => toggleModal(false)}
+        onClose={() => toggleUserModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -45,12 +45,7 @@ export default function NewBank(props) {
         }}
       >
         {/* <Fade in={modalStatus}> */}
-        <ModalContent
-          updateData={updateData}
-          toggleModal={toggleModal}
-          item={item}
-          type={type}
-        />
+        <ModalContent toggleUserModal={toggleUserModal} bank_id={id} />
         {/* </Fade> */}
       </Modal>
     </div>
@@ -58,29 +53,28 @@ export default function NewBank(props) {
 }
 
 function ModalContent(props) {
-  const { updateData, toggleModal, item, type } = props;
-  const [name, setName] = React.useState(type == "update" ? item.name : "");
-  const [logo, setLogo] = React.useState([]);
-  const [address, setAddress] = React.useState(
-    type == "update" ? item.address : ""
-  );
+  const { updateData, toggleUserModal, bank_id } = props;
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [DOB, setDOB] = React.useState("");
+  const [id, setId] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
       name,
-      address,
-      logo,
+      date_of_birth: DOB,
+      email,
+      bank_id,
+      password,
+      national_id: id,
     };
 
-    const stored =
-      type == "update"
-        ? await updateBank(item.id, data)
-        : await storeNewBank(data);
+    const stored = await storeNewBankUser(data);
 
     if (stored) {
-      updateData();
-      toggleModal(false);
+      toggleUserModal(false);
     }
   };
 
@@ -89,11 +83,17 @@ function ModalContent(props) {
       case "name":
         setName(event.target.value);
         break;
-      case "address":
-        setAddress(event.target.value);
+      case "email":
+        setEmail(event.target.value);
         break;
-      case "image":
-        setLogo(event.target.files[0]);
+      case "id":
+        setId(event.target.value);
+        break;
+      case "DOB":
+        setDOB(event.target.value);
+        break;
+      case "password":
+        setPassword(event.target.value);
         break;
     }
   };
@@ -105,30 +105,47 @@ function ModalContent(props) {
           type="text"
           style={inputStyle}
           name="name"
-          value={name}
           className="form-control"
-          placeholder="اسم البنك"
+          placeholder="اسم المسخدم"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
         />
         <input
-          type="text"
-          name="address"
+          type="email"
+          name="email"
           style={inputStyle}
-          value={address}
           className="form-control"
-          placeholder="عنوان البنك"
+          placeholder="الايميل"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
         />
         <input
-          type="file"
-          name="image"
+          type="date"
+          name="DOB"
           style={inputStyle}
           className="form-control"
-          placeholder="شعار البنك"
+          placeholder="تاريخ الميلاد"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
+        />
+        <input
+          type="number"
+          name="id"
+          style={inputStyle}
+          className="form-control"
+          placeholder="رقم اثبات الهوية"
+          onChange={handleValueChange}
+          required={true}
+        />
+        <input
+          type="password"
+          name="password"
+          style={inputStyle}
+          value={password}
+          className="form-control"
+          placeholder="كلمة المرور"
+          onChange={handleValueChange}
+          required={true}
         />
         {/* <img src={image} style={{ width: 100, height: 100 }} /> */}
         <input

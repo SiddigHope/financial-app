@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Collapse } from 'react-bootstrap';
-import { Trans } from 'react-i18next';
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+// import { Collapse } from 'react-bootstrap';
+import { Trans } from "react-i18next";
 
 class Sidebar extends Component {
-
   state = {};
 
   toggleMenuState(menuState) {
     if (this.state[menuState]) {
-      this.setState({[menuState] : false});
-    } else if(Object.keys(this.state).length === 0) {
-      this.setState({[menuState] : true});
+      this.setState({ [menuState]: false });
+    } else if (Object.keys(this.state).length === 0) {
+      this.setState({ [menuState]: true });
     } else {
-      Object.keys(this.state).forEach(i => {
-        this.setState({[i]: false});
+      Object.keys(this.state).forEach((i) => {
+        this.setState({ [i]: false });
       });
-      this.setState({[menuState] : true});
+      this.setState({ [menuState]: true });
     }
   }
 
@@ -27,79 +26,179 @@ class Sidebar extends Component {
   }
 
   onRouteChanged() {
-    document.querySelector('#sidebar').classList.remove('active');
-    Object.keys(this.state).forEach(i => {
-      this.setState({[i]: false});
+    document.querySelector("#sidebar").classList.remove("active");
+    Object.keys(this.state).forEach((i) => {
+      this.setState({ [i]: false });
     });
 
     const dropdownPaths = [
-      {path:'/apps', state: 'appsMenuOpen'},
-      {path:'/basic-ui', state: 'basicUiMenuOpen'},
-      {path:'/advanced-ui', state: 'advancedUiMenuOpen'},
-      {path:'/form-elements', state: 'formElementsMenuOpen'},
-      {path:'/tables', state: 'tablesMenuOpen'},
-      {path:'/maps', state: 'mapsMenuOpen'},
-      {path:'/icons', state: 'iconsMenuOpen'},
-      {path:'/charts', state: 'chartsMenuOpen'},
-      {path:'/user-pages', state: 'userPagesMenuOpen'},
-      {path:'/error-pages', state: 'errorPagesMenuOpen'},
-      {path:'/general-pages', state: 'generalPagesMenuOpen'},
-      {path:'/ecommerce', state: 'ecommercePagesMenuOpen'},
+      { path: "/apps", state: "appsMenuOpen" },
+      { path: "/basic-ui", state: "basicUiMenuOpen" },
+      { path: "/advanced-ui", state: "advancedUiMenuOpen" },
+      { path: "/form-elements", state: "formElementsMenuOpen" },
+      { path: "/tables", state: "tablesMenuOpen" },
+      { path: "/maps", state: "mapsMenuOpen" },
+      { path: "/icons", state: "iconsMenuOpen" },
+      { path: "/charts", state: "chartsMenuOpen" },
+      { path: "/user-pages", state: "userPagesMenuOpen" },
+      { path: "/error-pages", state: "errorPagesMenuOpen" },
+      { path: "/general-pages", state: "generalPagesMenuOpen" },
+      { path: "/ecommerce", state: "ecommercePagesMenuOpen" },
     ];
 
-    dropdownPaths.forEach((obj => {
+    dropdownPaths.forEach((obj) => {
       if (this.isPathActive(obj.path)) {
-        this.setState({[obj.state] : true})
+        this.setState({ [obj.state]: true });
       }
-    }));
- 
+    });
   }
 
-  render () {
+  render() {
     return (
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
           <li className="nav-item nav-profile">
-            <a href="!#" className="nav-link" onClick={evt =>evt.preventDefault()}>
+            <a
+              href="!#"
+              className="nav-link"
+              onClick={(evt) => evt.preventDefault()}
+            >
               <div className="nav-profile-image">
-                <img src={ require("../../assets/images/fainance/CBOS.jpg") } alt="profile" />
-                <span className="login-status online"></span> {/* change to offline or busy as needed */}
+                <img
+                  src={require("../../assets/images/fainance/CBOS.jpg")}
+                  alt="profile"
+                />
+                <span className="login-status online"></span>{" "}
+                {/* change to offline or busy as needed */}
               </div>
               <div className="nav-profile-text">
-                <span className="font-weight-bold mb-2"><Trans>David Grey. H</Trans></span>
-                <span className="text-secondary text-small"><Trans>Project Manager</Trans></span>
+                <span
+                  className="font-weight-bold mb-2"
+                  style={{ textAlign: "right" }}
+                >
+                  <Trans>{this.props.user.name}</Trans>
+                </span>
+                <span className="text-secondary text-small">
+                  <Trans>{this.props.user.email}</Trans>
+                </span>
               </div>
               <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
-          <li className={ this.isPathActive('/dashboard') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/dashboard">
-              <i style={{marginLeft: 0}} className="mdi mdi-chart-line menu-icon"></i>
-              <span className="menu-title"><Trans>{"الاحصائيات"}</Trans></span>
+          <li
+            className={
+              this.isPathActive("/dashboard") ? "nav-item active" : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/dashboard"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-chart-line menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"الاحصائيات"}</Trans>
+              </span>
             </Link>
           </li>
-          <li className={ this.isPathActive('/banks') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/banks">
-              <i style={{marginLeft: 0}} className="mdi mdi-bank menu-icon"></i>
-              <span className="menu-title"><Trans>{"البنوك"}</Trans></span>
+          <li
+            className={
+              this.isPathActive("/banks") ? "nav-item active" : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/banks"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-bank menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"البنوك"}</Trans>
+              </span>
             </Link>
           </li>
-          <li className={ this.isPathActive('/transactions') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/transactions">
-              <i style={{marginLeft: 0}} className="mdi mdi-settings menu-icon"></i>
-              <span className="menu-title"><Trans>{"العمليات"}</Trans></span>
+          <li
+            className={
+              this.isPathActive("/transactions")
+                ? "nav-item active"
+                : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/transactions"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-settings menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"العمليات"}</Trans>
+              </span>
             </Link>
           </li>
-          <li className={ this.isPathActive('/currencies') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/currencies">
-              <i style={{marginLeft: 0}} className="mdi mdi-cash menu-icon"></i>
-              <span className="menu-title"><Trans>{"اسعار الصرف"}</Trans></span>
+          <li
+            className={
+              this.isPathActive("/currencies") ? "nav-item active" : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/currencies"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-cash menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"اسعار الصرف"}</Trans>
+              </span>
             </Link>
           </li>
-          <li className={ this.isPathActive('/reports') ? 'nav-item active' : 'nav-item' }>
-            <Link className="nav-link d-flex" style={{flex:1, justifyContent: 'space-between'}} to="/reports">
-              <i style={{marginLeft: 0}} className="mdi mdi-receipt menu-icon"></i>
-              <span className="menu-title"><Trans>{"التقارير"}</Trans></span>
+          <li
+            className={
+              this.isPathActive("/reports") ? "nav-item active" : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/reports"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-receipt menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"التقارير"}</Trans>
+              </span>
+            </Link>
+          </li>
+          <li
+            className={
+              this.isPathActive("/banks-users") ? "nav-item active" : "nav-item"
+            }
+          >
+            <Link
+              className="nav-link d-flex"
+              style={{ flex: 1, justifyContent: "space-between" }}
+              to="/banks-users"
+            >
+              <i
+                style={{ marginLeft: 0 }}
+                className="mdi mdi-receipt menu-icon"
+              ></i>
+              <span className="menu-title">
+                <Trans>{"مستخدمين البنوك"}</Trans>
+              </span>
             </Link>
           </li>
           {/* <li className={ this.isPathActive('/basic-ui') ? 'nav-item active' : 'nav-item' }>
@@ -222,22 +321,20 @@ class Sidebar extends Component {
   componentDidMount() {
     this.onRouteChanged();
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
-    const body = document.querySelector('body');
-    document.querySelectorAll('.sidebar .nav-item').forEach((el) => {
-      
-      el.addEventListener('mouseover', function() {
-        if(body.classList.contains('sidebar-icon-only')) {
-          el.classList.add('hover-open');
+    const body = document.querySelector("body");
+    document.querySelectorAll(".sidebar .nav-item").forEach((el) => {
+      el.addEventListener("mouseover", function () {
+        if (body.classList.contains("sidebar-icon-only")) {
+          el.classList.add("hover-open");
         }
       });
-      el.addEventListener('mouseout', function() {
-        if(body.classList.contains('sidebar-icon-only')) {
-          el.classList.remove('hover-open');
+      el.addEventListener("mouseout", function () {
+        if (body.classList.contains("sidebar-icon-only")) {
+          el.classList.remove("hover-open");
         }
       });
     });
   }
-
 }
 
 export default withRouter(Sidebar);

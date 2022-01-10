@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 // import { currencies } from "../../data";
-import NewCurrency from "./NewCurrency";
-import { getAllCurrencies } from "../shared/functions/currencies";
+import NewUser from "./NewUser";
 
-export default class Currencies extends Component {
+export default class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +19,9 @@ export default class Currencies extends Component {
 
   getData = async () => {
     // console.log(await getAllCurrencies())
-    this.setState({
-      rows: await getAllCurrencies(),
-    });
+    // this.setState({
+    //   rows: await getBan(),
+    // });
   };
 
   toggleModal = (modalStatus, type, item) => {
@@ -67,13 +66,13 @@ export default class Currencies extends Component {
               >
                 <i className="mdi mdi-plus"></i>
               </button>
-              <NewCurrency
+              {/* <NewUser
                 toggleModal={this.toggleModal}
                 updateData={this.getData}
                 item={this.state.item}
                 type={this.state.type}
                 modalStatus={this.state.toggleModal}
-              />
+              /> */}
               <div className="table-responsive">
                 <table className="table text-center">
                   <thead>
