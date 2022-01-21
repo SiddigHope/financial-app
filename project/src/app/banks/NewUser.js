@@ -2,12 +2,9 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import {
-  storeNewCurrency,
-  updateCurrency,
-} from "../shared/functions/currencies";
+import { storeNewBankUser } from "../shared/functions/users/banks";
 import { CircularProgress } from "@mui/material";
-import {useSnackbar} from 'notistack'
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute",
@@ -22,12 +19,12 @@ const style = {
   p: 4,
 };
 
-export default function NewCurrency(props) {
-  const { toggleModal, modalStatus, updateData, item, type } = props;
+export default function NewUser(props) {
+  const { toggleUserModal, modalStatus, id } = props;
 
   React.useEffect(() => {
-    console.log(item.length);
-  }, []);
+    console.log(modalStatus);
+  }, [modalStatus]);
 
   return (
     <div>
@@ -35,59 +32,53 @@ export default function NewCurrency(props) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={modalStatus}
-        onClose={() => toggleModal(false)}
+        onClose={() => toggleUserModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <ModalContent
-          updateData={updateData}
-          item={item}
-          type={type}
-          toggleModal={toggleModal}
-        />
+        {/* <Fade in={modalStatus}> */}
+        <ModalContent toggleUserModal={toggleUserModal} bank_id={id} />
+        {/* </Fade> */}
       </Modal>
     </div>
   );
 }
 
 function ModalContent(props) {
-  const { updateData, toggleModal, item, type } = props;
-  const [name, setName] = React.useState(
-    type == "update" ? item.currency.name : ""
-  );
-  const [sell, setSell] = React.useState(
-    type == "update" ? item.sale_price : ""
-  );
-  const [buy, setBuy] = React.useState(type == "update" ? item.buy_price : "");
+  const { updateData, toggleUserModal, bank_id } = props;
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [DOB, setDOB] = React.useState("");
+  const [id, setId] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-  const {enqueueSnackbar} = useSnackbar()
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     const data = {
-      sale_price: sell,
-      buy_price: buy,
       name,
+      date_of_birth: DOB,
+      email,
+      bank_id,
+      password,
+      national_id: id,
     };
 
-    const stored =
-      type == "update"
-        ? await updateCurrency(item.id, data)
-        : await storeNewCurrency(data);
+    const stored = await storeNewBankUser(data);
 
     if (stored) {
-      updateData();
-      toggleModal(false);
+      toggleUserModal(false);
       setLoading(false);
-      enqueueSnackbar("تمت عملية الاضافة بنجاح", {variant: 'success'})
-      return
+      enqueueSnackbar("تمت اضافة المستخدم بنجاح", { variant: "success" });
+      return;
     }
     setLoading(false);
-    enqueueSnackbar("لم تتم العملية حاول مرة اخرى", {variant: 'error'})
+    enqueueSnackbar("لم تتم عملية الاضافة", { variant: "error" });
   };
 
   const handleValueChange = (event) => {
@@ -95,49 +86,69 @@ function ModalContent(props) {
       case "name":
         setName(event.target.value);
         break;
-      case "sell":
-        setSell(event.target.value);
+      case "email":
+        setEmail(event.target.value);
         break;
-      case "buy":
-        setBuy(event.target.value);
+      case "id":
+        setId(event.target.value);
+        break;
+      case "DOB":
+        setDOB(event.target.value);
+        break;
+      case "password":
+        setPassword(event.target.value);
         break;
     }
   };
 
   return (
-    <Box sx={style} className="bg-gradient-primary">
+    <Box sx={style} className="bg-gradient-info">
       <form onSubmit={handleSubmit} className="form-group">
         <input
           type="text"
           style={inputStyle}
           name="name"
-          value={name}
           className="form-control"
-          placeholder="اسم العملة"
+          placeholder="اسم المسخدم"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
+        />
+        <input
+          type="email"
+          name="email"
+          style={inputStyle}
+          className="form-control"
+          placeholder="الايميل"
+          onChange={handleValueChange}
+          required={true}
+        />
+        <input
+          type="date"
+          name="DOB"
+          style={inputStyle}
+          className="form-control"
+          placeholder="تاريخ الميلاد"
+          onChange={handleValueChange}
+          required={true}
         />
         <input
           type="number"
-          name="sell"
-          step="any"
+          name="id"
           style={inputStyle}
-          value={sell}
           className="form-control"
-          placeholder="سعر الشراء"
+          placeholder="رقم اثبات الهوية"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
         />
         <input
-          type="number"
-          name="buy"
-          step="any"
+          type="password"
+          name="password"
           style={inputStyle}
-          value={buy}
+          value={password}
           className="form-control"
-          placeholder="سعر البيع"
+          placeholder="كلمة المرور"
           onChange={handleValueChange}
-          required={type == "update" ? false : true}
+          required={true}
         />
         <div
           className="bg-success shadow"

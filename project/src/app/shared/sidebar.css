@@ -1,0 +1,22 @@
+.sidebar .nav .nav-item .nav-link .menu-title{
+    font-size: inherit;
+    line-height: inherit;
+}
+
+ul, ol, dl{
+    font-size: inherit;
+}
+
+.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title{
+    left: 0px;
+    right: 30px;
+    width: 150px;
+    border-top-left-radius: 10px;
+    /* border-bottom-left-radius: 10px; */
+}
+
+.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse, .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing{
+    left: 0px;
+    right: 30px;
+    width: 150px;
+}

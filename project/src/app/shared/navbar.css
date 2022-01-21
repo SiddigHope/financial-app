@@ -1,0 +1,9 @@
+.nav-item {
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  flex: 1;
+  background-color: red;
+  padding: 0;
+  width: 50%;
+}

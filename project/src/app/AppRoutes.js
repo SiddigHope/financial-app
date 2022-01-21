@@ -1,7 +1,8 @@
 import React, { Component, Suspense, lazy } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-
+import RequireAuth from "./RequireAuth";
 import Spinner from "../app/shared/Spinner";
+import { withSnackbar } from "notistack";
 const SuperAdminLogin = lazy(() => import("./user-pages/SuperAdminLogin"));
 
 const Dashboard = lazy(() => import("./dashboard/Dashboard"));
@@ -12,20 +13,27 @@ const Currencies = lazy(() => import("./currencies/Currencies"));
 
 const Transactions = lazy(() => import("./transactions/Transactions"));
 
+const Users = lazy(() => import("./users/Users"));
+
 class AppRoutes extends Component {
   render() {
     return (
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route
+            path="/adminlogin"
+            component={(props) => <SuperAdminLogin {...props} />}
+          />
 
-          <Route path="/banks" component={Banks} />
+          <Route exact path="/dashboard" component={AuthDash} />
 
-          <Route path="/currencies" component={Currencies} />
+          <Route path="/banks" component={AuthBanks} />
 
-          <Route path="/transactions" component={Transactions} />
+          <Route path="/currencies" component={AuthCurrencies} />
 
-          <Route path="/adminlogin" component={SuperAdminLogin} />
+          <Route path="/transactions" component={AuthTrans} />
+
+          <Route path="/bank-users" component={AuthUsers} />
 
           <Redirect to="/dashboard" />
         </Switch>
@@ -34,4 +42,43 @@ class AppRoutes extends Component {
   }
 }
 
-export default AppRoutes;
+export default withSnackbar(AppRoutes);
+
+function AuthDash() {
+  return (
+    <RequireAuth>
+      <Dashboard />
+    </RequireAuth>
+  );
+}
+
+function AuthBanks() {
+  return (
+    <RequireAuth>
+      <Banks />
+    </RequireAuth>
+  );
+}
+
+function AuthTrans() {
+  return (
+    <RequireAuth>
+      <Transactions />
+    </RequireAuth>
+  );
+}
+function AuthUsers() {
+  return (
+    <RequireAuth>
+      <Users />
+    </RequireAuth>
+  );
+}
+
+function AuthCurrencies() {
+  return (
+    <RequireAuth>
+      <Currencies />
+    </RequireAuth>
+  );
+}

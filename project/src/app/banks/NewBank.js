@@ -2,9 +2,9 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { storeNewBank, updateBank } from "../shared/functions/banks";
+import { CircularProgress } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute",
@@ -20,10 +20,7 @@ const style = {
 };
 
 export default function NewBank(props) {
-  const { toggleModal, modalStatus } = props;
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
+  const { toggleModal, modalStatus, updateData, item, type } = props;
 
   React.useEffect(() => {
     console.log(modalStatus);
@@ -31,7 +28,6 @@ export default function NewBank(props) {
 
   return (
     <div>
-      {/* <Button onClick={() => toggleModal(true)}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -44,29 +40,57 @@ export default function NewBank(props) {
         }}
       >
         {/* <Fade in={modalStatus}> */}
-        <ModalContent />
+        <ModalContent
+          updateData={updateData}
+          toggleModal={toggleModal}
+          item={item}
+          type={type}
+        />
         {/* </Fade> */}
       </Modal>
     </div>
   );
 }
 
-function ModalContent() {
-  const [name, setName] = React.useState("");
-  const [image, setImage] = React.useState(require('./../../assets/images/fainance/CBOS.jpg'));
-  const [address, setAddress] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+function ModalContent(props) {
+  const { updateData, toggleModal, item, type } = props;
+  const [name, setName] = React.useState(type == "update" ? item.name : "");
+  const [logo, setLogo] = React.useState([]);
+  const [selected, setSelected] = React.useState(require('./../../assets/images/fainance/img.jpeg'));
+  const [loading, setLoading] = React.useState(false);
+  const [address, setAddress] = React.useState(
+    type == "update" ? item.address : ""
+  );
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleSubmit = (event) => {
-    console.log(event);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    const data = {
+      name,
+      address,
+      logo,
+    };
+
+    const stored =
+      type == "update"
+        ? await updateBank(item.id, data)
+        : await storeNewBank(data);
+
+    if (stored) {
+      updateData();
+      toggleModal(false);
+      setLoading(false);
+      enqueueSnackbar("تمت عملية الاضافة بنجاح", { varianr: "success" });
+      return;
+    }
+    setLoading(false);
+    enqueueSnackbar("لم تتم عملية الاضافة", { varianr: "error" });
   };
 
   const handleValueChange = (event) => {
     switch (event.target.name) {
-      case "email":
-        setEmail(event.target.value);
-        break;
       case "name":
         setName(event.target.value);
         break;
@@ -74,11 +98,28 @@ function ModalContent() {
         setAddress(event.target.value);
         break;
       case "image":
-        // setImage(require(event.target.file[0]));
+        readFile(event.target);
+        // setLogo(event.target.files[0]);
         break;
-      case "password":
-        setPassword(event.target.value);
-        break;
+    }
+  };
+
+  const readFile = (input) => {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      console.log(file.type.toString());
+      if (
+        file.type.toString() == "image/png" ||
+        file.type.toString() == "image/jgp" ||
+        file.type.toString() == "image/jpeg"
+      ) {
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+          setSelected(e.target.result);
+        };
+      }
     }
   };
 
@@ -89,54 +130,61 @@ function ModalContent() {
           type="text"
           style={inputStyle}
           name="name"
+          value={name}
           className="form-control"
           placeholder="اسم البنك"
           onChange={handleValueChange}
-          required
+          required={type == "update" ? false : true}
         />
         <input
           type="text"
           name="address"
           style={inputStyle}
+          value={address}
           className="form-control"
           placeholder="عنوان البنك"
           onChange={handleValueChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          style={inputStyle}
-          className="form-control"
-          placeholder="ايميل البنك"
-          onChange={handleValueChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          style={inputStyle}
-          className="form-control"
-          placeholder="كلمة المرور"
-          onChange={handleValueChange}
-          required
+          required={type == "update" ? false : true}
         />
         <input
           type="file"
           name="image"
+          id="image"
           style={inputStyle}
           className="form-control"
           placeholder="شعار البنك"
           onChange={handleValueChange}
-          required
+          required={type == "update" ? false : true}
         />
-        {/* <img src={image} style={{ width: 100, height: 100 }} /> */}
-        <input
-          type="submit"
-          style={buttonStyle}
-          className="btn btn-success shadow float-right"
-          value="ادخال"
-        />
+        <div class="card shadow d-flex">
+          <span> {"mkmmkmmkmmkmkmkmkmkmmmkmkmkmkmmmmmmkkkmmkmm"} </span>
+          <label style={{cursor: 'pointer'}} for="image">
+            {" "}
+            <img src={selected} style={{ width: 100, height: 100 }} />{" "}
+          </label>
+        </div>
+        <div
+          className="bg-success shadow"
+          style={{
+            display: "flex",
+            flex: 1,
+            height: 50,
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <input
+              type="submit"
+              style={buttonStyle}
+              className="btn btn-success"
+              value="ادخال"
+            />
+          )}
+        </div>
       </form>
     </Box>
   );
@@ -149,8 +197,9 @@ const inputStyle = {
   textAlign: "right",
 };
 const buttonStyle = {
-  marginBottom: 5,
-  borderRadius: 10,
   fontSize: 18,
-  textAlign: "right",
+  // textAlign: "right",
+  width: "100%",
+  height: 50,
+  backgroundColor: "transparent",
 };

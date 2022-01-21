@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 // import { currencies } from "../../data";
-import NewCurrency from "./NewCurrency";
-import { deleteCurrency, getAllCurrencies } from "../shared/functions/currencies";
-import { withSnackbar } from 'notistack'
+import NewUser from "./NewUser";
+import { deleteUser, getAllUsers } from "../shared/functions/users/central";
+import { withSnackbar } from 'notistack';
 
-class Currencies extends Component {
+class Users extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,9 +20,9 @@ class Currencies extends Component {
   }
 
   getData = async () => {
-    // console.log(await getAllCurrencies())
+    console.log(await getAllUsers());
     this.setState({
-      rows: await getAllCurrencies(),
+      rows: await getAllUsers(),
     });
   };
 
@@ -44,19 +44,18 @@ class Currencies extends Component {
         item: [],
       });
     }
-    // console.log(modalStatus)
   };
 
   deleteItem = (item) => {
-    const deleted = deleteCurrency(item.id);
+    const deleted = deleteUser(item.id);
     if (deleted) {
       this.setState({
         rows: this.state.rows.filter((row) => item.id != row.id),
       });
-      this.props.enqueueSnackbar("تمت العملية بنجاح", {variant: "success"})
+      this.props.enqueueSnackbar("تم حذف المستخدم بنجاح", {variant: "success"})
       return
     }
-    this.props.enqueueSnackbar("لم تتم العملية حاول مرة اخري", {variant: "error"})
+    this.props.enqueueSnackbar("اعد مرة اخرى لم تتم العملية", {variant: "error"})
   };
 
   render() {
@@ -65,14 +64,14 @@ class Currencies extends Component {
         <div className="col-12 grid-margin">
           <div className="card shadow">
             <div className="card-body">
-              <h4 className="card-title float-right">{"العملات الاجنبية و اسعار الصرف"}</h4>
+              <h4 className="card-title float-right">{" مستخدمين النظام "}</h4>
               <button
                 onClick={() => this.toggleModal(true, "add")}
                 className="btn btn-sm btn-gradient-primary text-white mr-2 float-left"
               >
                 <i className="mdi mdi-plus"></i>
               </button>
-              <NewCurrency
+              <NewUser
                 toggleModal={this.toggleModal}
                 updateData={this.getData}
                 item={this.state.item}
@@ -83,21 +82,18 @@ class Currencies extends Component {
                 <table className="table text-center">
                   <thead>
                     <tr>
-                      {/* <th> {"#"} </th> */}
-                      <th> {"العملة"} </th>
-                      <th> {"سعر الشراء"} </th>
-                      <th> {"سعر البيع"} </th>
-                      <th> {"الخزينة"} </th>
+                      <th> {"#"} </th>
+                      <th> {"الاسم"} </th>
+                      <th> {"الايميل"} </th>
                       <th> {"ادارة"} </th>
                     </tr>
                   </thead>
                   <tbody>
                     {this.state.rows.map((item, index) => (
                       <tr key={index}>
-                        <td> {item.currency.name} </td>
-                        <td> {item.sale_price} </td>
-                        <td> {item.buy_price} </td>
-                        <td> {(item.sale_price + item.buy_price) / 2} </td>
+                        <td> {item.id} </td>
+                        <td> {item.name} </td>
+                        <td> {item.email} </td>
                         <td>
                           <button
                             onClick={() => this.deleteItem(item)}
@@ -129,4 +125,4 @@ class Currencies extends Component {
   }
 }
 
-export default withSnackbar(Currencies)
+export default withSnackbar(Users)

@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { user } from "../../authHandler";
+import { Link, useLocation } from "react-router-dom";
+import UserClass from "../../authHandler";
 import { useHistory } from "react-router-dom";
-
+import { loginAsSuperAdmin } from "../shared/functions/auth";
+import { useSnackbar } from "notistack";
+import "./superadminlogin.css"
 const textStyle = {
   fontSize: 16,
   color: "#FFF",
 };
 
-const labelText = {
-  color: "#FFF",
-  fontSize: 16,
-  // backgroundColor:'red',
-  display: "block",
-  textAlign: "right",
-};
-
 export default function SuperAdminLogin(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin@admin.com");
+  const [password, setPassword] = useState("password");
+  const isAuth = UserClass.isAuthenticated();
   const history = useHistory();
+  const { state } = props;
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
-    console.log("inside login");
-    if (user.length > 0) {
-      history.push("./dashboard");
+    if (isAuth) {
+      history.push("/dashboard");
     }
   }, []);
+
+  const _checkUser = async (e) => {
+    e.preventDefault();
+    const logged = await loginAsSuperAdmin(email, password);
+    if (logged) {
+      enqueueSnackbar("تم تسجيل الدخول بنجاح", { variant: "success" });
+      history.push(state || "/dashboard");
+    } else {
+      enqueueSnackbar("حدث خطأ ما اعد المحاولة من جديد", { variant: "error" });
+    }
+  };
 
   return (
     <div>
@@ -37,7 +45,7 @@ export default function SuperAdminLogin(props) {
                 src={require("../../assets/images/fainance/CBOS.jpg")}
                 className="lock-profile-img"
                 alt="img"
-                style={{height: 110, width: 110}}
+                style={{ height: 130, width: 200 }}
               />
               <form className="pt-5">
                 <div className="form-group">
@@ -46,8 +54,11 @@ export default function SuperAdminLogin(props) {
                     type="email"
                     style={textStyle}
                     className="form-control text-center"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                     id="user-email"
                     placeholder="example@email.com"
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -59,16 +70,19 @@ export default function SuperAdminLogin(props) {
                     style={textStyle}
                     className="form-control text-center"
                     id="examplePassword1"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
+                    required
                   />
                 </div>
                 <div className="mt-5">
-                  <Link
+                  <button
                     className="btn btn-block btn-success btn-lg font-weight-medium"
-                    to="/dashboard"
+                    onClick={_checkUser}
                   >
                     {"تسجيل دخول"}
-                  </Link>
+                  </button>
                 </div>
                 <div className="mt-3 text-center">
                   <Link to="/login" className="auth-link text-white">

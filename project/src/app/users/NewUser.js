@@ -2,12 +2,9 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import {
-  storeNewCurrency,
-  updateCurrency,
-} from "../shared/functions/currencies";
+import { storeNewUser, updateUser } from "../shared/functions/users/central";
+import { useSnackbar } from 'notistack'
 import { CircularProgress } from "@mui/material";
-import {useSnackbar} from 'notistack'
 
 const style = {
   position: "absolute",
@@ -22,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function NewCurrency(props) {
+export default function NewUser(props) {
   const { toggleModal, modalStatus, updateData, item, type } = props;
 
   React.useEffect(() => {
@@ -55,39 +52,44 @@ export default function NewCurrency(props) {
 
 function ModalContent(props) {
   const { updateData, toggleModal, item, type } = props;
-  const [name, setName] = React.useState(
-    type == "update" ? item.currency.name : ""
-  );
-  const [sell, setSell] = React.useState(
-    type == "update" ? item.sale_price : ""
-  );
-  const [buy, setBuy] = React.useState(type == "update" ? item.buy_price : "");
+  const [name, setName] = React.useState(type == "update" ? item.name : "");
+  const [email, setEmail] = React.useState(type == "update" ? item.email : "");
+  const [password, setPassword] = React.useState();
+  const { enqueueSnackbar } = useSnackbar()
   const [loading, setLoading] = React.useState(false);
-  const {enqueueSnackbar} = useSnackbar()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const data = {
-      sale_price: sell,
-      buy_price: buy,
-      name,
-    };
+
+    let data = {};
+    if (password == "") {
+      data = {
+        name,
+        email,
+      };
+    } else {
+      data = {
+        name,
+        email,
+        password,
+      };
+    }
 
     const stored =
       type == "update"
-        ? await updateCurrency(item.id, data)
-        : await storeNewCurrency(data);
+        ? await updateUser(item.id, data)
+        : await storeNewUser(data);
 
     if (stored) {
       updateData();
       toggleModal(false);
       setLoading(false);
-      enqueueSnackbar("تمت عملية الاضافة بنجاح", {variant: 'success'})
+      enqueueSnackbar("تم ادخال مستخدم جديد للنظام", {variant: 'success'})
       return
     }
     setLoading(false);
-    enqueueSnackbar("لم تتم العملية حاول مرة اخرى", {variant: 'error'})
+    enqueueSnackbar("لم يتم ادخال المستخدم", {variant: 'error'})
   };
 
   const handleValueChange = (event) => {
@@ -95,11 +97,11 @@ function ModalContent(props) {
       case "name":
         setName(event.target.value);
         break;
-      case "sell":
-        setSell(event.target.value);
+      case "email":
+        setEmail(event.target.value);
         break;
-      case "buy":
-        setBuy(event.target.value);
+      case "password":
+        setPassword(event.target.value);
         break;
     }
   };
@@ -113,33 +115,31 @@ function ModalContent(props) {
           name="name"
           value={name}
           className="form-control"
-          placeholder="اسم العملة"
+          placeholder="اسم المستخدم"
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
         <input
-          type="number"
-          name="sell"
-          step="any"
+          type="email"
+          name="email"
           style={inputStyle}
-          value={sell}
+          value={email}
           className="form-control"
-          placeholder="سعر الشراء"
+          placeholder="البريد الالكتروني"
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
         <input
-          type="number"
-          name="buy"
-          step="any"
+          type="password"
+          name="password"
           style={inputStyle}
-          value={buy}
+          value={password}
           className="form-control"
-          placeholder="سعر البيع"
+          placeholder="كلمة المرور"
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
-        <div
+         <div
           className="bg-success shadow"
           style={{
             display: "flex",
@@ -179,3 +179,4 @@ const buttonStyle = {
   height: 50,
   backgroundColor: "transparent",
 };
+
