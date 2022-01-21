@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import UserClass from "../../authHandler";
 import { useHistory } from "react-router-dom";
 import { loginAsSuperAdmin } from "../shared/functions/auth";
-
+import { useSnackbar } from "notistack";
+import "./superadminlogin.css"
 const textStyle = {
   fontSize: 16,
   color: "#FFF",
 };
 
-// const labelText = {
-//   color: "#FFF",
-//   fontSize: 16,
-//   // backgroundColor:'red',
-//   display: "block",
-//   textAlign: "right",
-// };
-
 export default function SuperAdminLogin(props) {
   const [email, setEmail] = useState("admin@admin.com");
   const [password, setPassword] = useState("password");
+  const isAuth = UserClass.isAuthenticated();
   const history = useHistory();
+  const { state } = props;
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
-    console.log("inside login");
-    const user = UserClass.getUser()
-    if (user.token) {
-      history.push("./dashboard");
+    if (isAuth) {
+      history.push("/dashboard");
     }
   }, []);
 
@@ -33,9 +28,10 @@ export default function SuperAdminLogin(props) {
     e.preventDefault();
     const logged = await loginAsSuperAdmin(email, password);
     if (logged) {
-      history.push("./dashboard");
+      enqueueSnackbar("تم تسجيل الدخول بنجاح", { variant: "success" });
+      history.push(state || "/dashboard");
     } else {
-      console.log("will show a snackbar here");
+      enqueueSnackbar("حدث خطأ ما اعد المحاولة من جديد", { variant: "error" });
     }
   };
 
@@ -49,7 +45,7 @@ export default function SuperAdminLogin(props) {
                 src={require("../../assets/images/fainance/CBOS.jpg")}
                 className="lock-profile-img"
                 alt="img"
-                style={{ height: 110, width: 110 }}
+                style={{ height: 130, width: 200 }}
               />
               <form className="pt-5">
                 <div className="form-group">

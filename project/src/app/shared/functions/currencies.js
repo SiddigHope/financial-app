@@ -52,25 +52,48 @@ export const storeNewCurrency = async (data) => {
 };
 
 export const updateCurrency = async (id, data) => {
-    try {
-      const options = {
-        method: "PUT",
-        url: mainCentralDomain + "currency/" + id,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Bearer " + user.token,
-        },
-        data,
-      };
-  
-      const request = await axios(options)
-        .then((response) => response.data)
-        .catch((error) => console.log(error));
-      // console.log(request);
-      return request.data ? true : false;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
+  try {
+    const options = {
+      method: "PUT",
+      url: mainCentralDomain + "currency/" + id,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + user.token,
+      },
+      data,
+    };
+
+    const request = await axios(options)
+      .then((response) => response.data)
+      .catch((error) => console.log(error));
+    // console.log(request);
+    return request.data ? true : false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteCurrency = async (id) => {
+  try {
+    const options = {
+      method: "DELETE",
+      url: mainCentralDomain + "currency/" + id,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + user.token,
+      },
+    };
+
+    const request = await axios(options)
+      .then((response) => response.status)
+      .catch((error) => console.log(error));
+    // console.log(request);
+    return request == 200 ? true : false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

@@ -6,9 +6,8 @@ import {
   storeNewCurrency,
   updateCurrency,
 } from "../shared/functions/currencies";
-// import Fade from "@mui/material/Fade";
-// import Button from "@mui/material/Button";
-// import Typography from "@mui/material/Typography";
+import { CircularProgress } from "@mui/material";
+import {useSnackbar} from 'notistack'
 
 const style = {
   position: "absolute",
@@ -63,9 +62,12 @@ function ModalContent(props) {
     type == "update" ? item.sale_price : ""
   );
   const [buy, setBuy] = React.useState(type == "update" ? item.buy_price : "");
+  const [loading, setLoading] = React.useState(false);
+  const {enqueueSnackbar} = useSnackbar()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = {
       sale_price: sell,
       buy_price: buy,
@@ -80,7 +82,12 @@ function ModalContent(props) {
     if (stored) {
       updateData();
       toggleModal(false);
+      setLoading(false);
+      enqueueSnackbar("تمت عملية الاضافة بنجاح", {variant: 'success'})
+      return
     }
+    setLoading(false);
+    enqueueSnackbar("لم تتم العملية حاول مرة اخرى", {variant: 'error'})
   };
 
   const handleValueChange = (event) => {
@@ -132,12 +139,28 @@ function ModalContent(props) {
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
-        <input
-          type="submit"
-          style={buttonStyle}
-          className="btn btn-success shadow float-right"
-          value="ادخال"
-        />
+        <div
+          className="bg-success shadow"
+          style={{
+            display: "flex",
+            flex: 1,
+            height: 50,
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <input
+              type="submit"
+              style={buttonStyle}
+              className="btn btn-success"
+              value="ادخال"
+            />
+          )}
+        </div>
       </form>
     </Box>
   );
@@ -150,8 +173,9 @@ const inputStyle = {
   textAlign: "right",
 };
 const buttonStyle = {
-  marginBottom: 5,
-  borderRadius: 10,
   fontSize: 18,
-  textAlign: "right",
+  // textAlign: "right",
+  width: "100%",
+  height: 50,
+  backgroundColor: "transparent",
 };

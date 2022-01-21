@@ -87,3 +87,26 @@ export const updateBank = async (id, data) => {
     return false;
   }
 };
+
+export const deleteBank = async (id) => {
+  try {
+    const options = {
+      method: "DELETE",
+      url: mainCentralDomain + "banks/" + id,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+        Authorization: "Bearer " + user.token,
+      },
+    };
+
+    const request = await axios(options)
+      .then((response) => response.data)
+      .catch((error) => console.log(error));
+    // console.log(request);
+    return request.data.status == 200 ? true : false;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

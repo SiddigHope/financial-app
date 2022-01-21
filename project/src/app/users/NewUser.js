@@ -2,9 +2,9 @@ import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { storeNewBankUser } from "../shared/functions/users/banks";
+import { storeNewUser, updateUser } from "../shared/functions/users/central";
+import { useSnackbar } from 'notistack'
 import { CircularProgress } from "@mui/material";
-import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute",
@@ -20,11 +20,11 @@ const style = {
 };
 
 export default function NewUser(props) {
-  const { toggleUserModal, modalStatus, id } = props;
+  const { toggleModal, modalStatus, updateData, item, type } = props;
 
   React.useEffect(() => {
-    console.log(modalStatus);
-  }, [modalStatus]);
+    console.log(item.length);
+  }, []);
 
   return (
     <div>
@@ -32,53 +32,64 @@ export default function NewUser(props) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={modalStatus}
-        onClose={() => toggleUserModal(false)}
+        onClose={() => toggleModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        {/* <Fade in={modalStatus}> */}
-        <ModalContent toggleUserModal={toggleUserModal} bank_id={id} />
-        {/* </Fade> */}
+        <ModalContent
+          updateData={updateData}
+          item={item}
+          type={type}
+          toggleModal={toggleModal}
+        />
       </Modal>
     </div>
   );
 }
 
 function ModalContent(props) {
-  const { updateData, toggleUserModal, bank_id } = props;
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [DOB, setDOB] = React.useState("");
-  const [id, setId] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { updateData, toggleModal, item, type } = props;
+  const [name, setName] = React.useState(type == "update" ? item.name : "");
+  const [email, setEmail] = React.useState(type == "update" ? item.email : "");
+  const [password, setPassword] = React.useState();
+  const { enqueueSnackbar } = useSnackbar()
   const [loading, setLoading] = React.useState(false);
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    const data = {
-      name,
-      date_of_birth: DOB,
-      email,
-      bank_id,
-      password,
-      national_id: id,
-    };
 
-    const stored = await storeNewBankUser(data);
+    let data = {};
+    if (password == "") {
+      data = {
+        name,
+        email,
+      };
+    } else {
+      data = {
+        name,
+        email,
+        password,
+      };
+    }
+
+    const stored =
+      type == "update"
+        ? await updateUser(item.id, data)
+        : await storeNewUser(data);
 
     if (stored) {
-      toggleUserModal(false);
+      updateData();
+      toggleModal(false);
       setLoading(false);
-      enqueueSnackbar("تمت اضافة المستخدم بنجاح", { variant: "success" });
-      return;
+      enqueueSnackbar("تم ادخال مستخدم جديد للنظام", {variant: 'success'})
+      return
     }
     setLoading(false);
-    enqueueSnackbar("لم تتم عملية الاضافة", { variant: "error" });
+    enqueueSnackbar("لم يتم ادخال المستخدم", {variant: 'error'})
   };
 
   const handleValueChange = (event) => {
@@ -89,12 +100,6 @@ function ModalContent(props) {
       case "email":
         setEmail(event.target.value);
         break;
-      case "id":
-        setId(event.target.value);
-        break;
-      case "DOB":
-        setDOB(event.target.value);
-        break;
       case "password":
         setPassword(event.target.value);
         break;
@@ -102,43 +107,27 @@ function ModalContent(props) {
   };
 
   return (
-    <Box sx={style} className="bg-gradient-info">
+    <Box sx={style} className="bg-gradient-primary">
       <form onSubmit={handleSubmit} className="form-group">
         <input
           type="text"
           style={inputStyle}
           name="name"
+          value={name}
           className="form-control"
-          placeholder="اسم المسخدم"
+          placeholder="اسم المستخدم"
           onChange={handleValueChange}
-          required={true}
+          required={type == "update" ? false : true}
         />
         <input
           type="email"
           name="email"
           style={inputStyle}
+          value={email}
           className="form-control"
-          placeholder="الايميل"
+          placeholder="البريد الالكتروني"
           onChange={handleValueChange}
-          required={true}
-        />
-        <input
-          type="date"
-          name="DOB"
-          style={inputStyle}
-          className="form-control"
-          placeholder="تاريخ الميلاد"
-          onChange={handleValueChange}
-          required={true}
-        />
-        <input
-          type="number"
-          name="id"
-          style={inputStyle}
-          className="form-control"
-          placeholder="رقم اثبات الهوية"
-          onChange={handleValueChange}
-          required={true}
+          required={type == "update" ? false : true}
         />
         <input
           type="password"
@@ -148,9 +137,9 @@ function ModalContent(props) {
           className="form-control"
           placeholder="كلمة المرور"
           onChange={handleValueChange}
-          required={true}
+          required={type == "update" ? false : true}
         />
-        <div
+         <div
           className="bg-success shadow"
           style={{
             display: "flex",
@@ -190,3 +179,4 @@ const buttonStyle = {
   height: 50,
   backgroundColor: "transparent",
 };
+

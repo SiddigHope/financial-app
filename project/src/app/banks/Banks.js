@@ -4,13 +4,14 @@ import NewBank from "./NewBank";
 import NewUser from "./NewUser";
 // import { GridRowsProp, GridColDef } from "@mui/x-data-grid";
 // import { banks } from "../../data";
-import { getAllBanks } from "../shared/functions/banks";
+import { deleteBank, getAllBanks } from "../shared/functions/banks";
+import { withSnackbar } from "notistack";
 
-export default class Banks extends Component {
+class Banks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggleModal: false,
+      toggleModal: true,
       toggleUserModal: false,
       rows: [],
       type: "",
@@ -139,7 +140,15 @@ export default class Banks extends Component {
   };
 
   deleteBank = (item) => {
-    console.log(item.row);
+    const deleted = deleteBank(item.id);
+    if (deleted) {
+      this.setState({
+        rows: this.state.rows.filter((row) => item.id != row.id),
+      });
+      this.props.enqueueSnackbar("تمت عملية الحذف", { variant: "success" });
+    } else {
+      this.props.enqueueSnackbar("لم تتم عملية الحذف", { variant: "error" });
+    }
   };
 
   render() {
@@ -147,7 +156,7 @@ export default class Banks extends Component {
       <button
         onClick={() => this.toggleModal(true, "add")}
         className="btn btn-sm btn-gradient-success text-white"
-        style={{ zIndex: 11111 }}
+        // style={{ zIndex: 11111 }}
       >
         <i className="mdi mdi-plus"></i>
       </button>
@@ -178,3 +187,5 @@ export default class Banks extends Component {
     );
   }
 }
+
+export default withSnackbar(Banks);

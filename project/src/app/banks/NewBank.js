@@ -3,9 +3,8 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { storeNewBank, updateBank } from "../shared/functions/banks";
-// import Fade from "@mui/material/Fade";
-// import Button from "@mui/material/Button";
-// import Typography from "@mui/material/Typography";
+import { CircularProgress } from "@mui/material";
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute",
@@ -22,9 +21,6 @@ const style = {
 
 export default function NewBank(props) {
   const { toggleModal, modalStatus, updateData, item, type } = props;
-  //   const [open, setOpen] = React.useState(false);
-  //   const handleOpen = () => setOpen(true);
-  //   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
     console.log(modalStatus);
@@ -32,7 +28,6 @@ export default function NewBank(props) {
 
   return (
     <div>
-      {/* <Button onClick={() => toggleModal(true)}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -61,12 +56,17 @@ function ModalContent(props) {
   const { updateData, toggleModal, item, type } = props;
   const [name, setName] = React.useState(type == "update" ? item.name : "");
   const [logo, setLogo] = React.useState([]);
+  const [selected, setSelected] = React.useState(require('./../../assets/images/fainance/img.jpeg'));
+  const [loading, setLoading] = React.useState(false);
   const [address, setAddress] = React.useState(
     type == "update" ? item.address : ""
   );
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+
     const data = {
       name,
       address,
@@ -81,7 +81,12 @@ function ModalContent(props) {
     if (stored) {
       updateData();
       toggleModal(false);
+      setLoading(false);
+      enqueueSnackbar("تمت عملية الاضافة بنجاح", { varianr: "success" });
+      return;
     }
+    setLoading(false);
+    enqueueSnackbar("لم تتم عملية الاضافة", { varianr: "error" });
   };
 
   const handleValueChange = (event) => {
@@ -93,8 +98,28 @@ function ModalContent(props) {
         setAddress(event.target.value);
         break;
       case "image":
-        setLogo(event.target.files[0]);
+        readFile(event.target);
+        // setLogo(event.target.files[0]);
         break;
+    }
+  };
+
+  const readFile = (input) => {
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      console.log(file.type.toString());
+      if (
+        file.type.toString() == "image/png" ||
+        file.type.toString() == "image/jgp" ||
+        file.type.toString() == "image/jpeg"
+      ) {
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+          setSelected(e.target.result);
+        };
+      }
     }
   };
 
@@ -124,19 +149,42 @@ function ModalContent(props) {
         <input
           type="file"
           name="image"
+          id="image"
           style={inputStyle}
           className="form-control"
           placeholder="شعار البنك"
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
-        {/* <img src={image} style={{ width: 100, height: 100 }} /> */}
-        <input
-          type="submit"
-          style={buttonStyle}
-          className="btn btn-success shadow float-right"
-          value="ادخال"
-        />
+        <div class="card shadow d-flex">
+          <span> {"mkmmkmmkmmkmkmkmkmkmmmkmkmkmkmmmmmmkkkmmkmm"} </span>
+          <label style={{cursor: 'pointer'}} for="image">
+            {" "}
+            <img src={selected} style={{ width: 100, height: 100 }} />{" "}
+          </label>
+        </div>
+        <div
+          className="bg-success shadow"
+          style={{
+            display: "flex",
+            flex: 1,
+            height: 50,
+            borderRadius: 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <input
+              type="submit"
+              style={buttonStyle}
+              className="btn btn-success"
+              value="ادخال"
+            />
+          )}
+        </div>
       </form>
     </Box>
   );
@@ -149,8 +197,9 @@ const inputStyle = {
   textAlign: "right",
 };
 const buttonStyle = {
-  marginBottom: 5,
-  borderRadius: 10,
   fontSize: 18,
-  textAlign: "right",
+  // textAlign: "right",
+  width: "100%",
+  height: 50,
+  backgroundColor: "transparent",
 };

@@ -7,12 +7,14 @@ import Sidebar from "./shared/Sidebar";
 import SettingsPanel from "./shared/SettingsPanel";
 import { withTranslation } from "react-i18next";
 import UserClass from "../authHandler";
+import { SnackbarProvider } from "notistack";
 
 class App extends Component {
   state = {
     user: [],
   };
   componentDidMount() {
+    // if (UserClass.isAuthenticated()) {
     const user = UserClass.getUser();
     const userJson = {
       name: user.user.name,
@@ -21,10 +23,20 @@ class App extends Component {
     this.setState({
       user: userJson,
     });
+    // }
     this.onRouteChanged();
   }
+  logout = (event) => {
+    event.preventDefault();
+    UserClass.logout();
+    this.props.history.push("/adminlogin");
+  };
   render() {
-    let navbarComponent = !this.state.isFullPageLayout ? <Navbar /> : "";
+    let navbarComponent = !this.state.isFullPageLayout ? (
+      <Navbar logout={this.logout} />
+    ) : (
+      ""
+    );
     let sidebarComponent = !this.state.isFullPageLayout ? (
       <Sidebar user={this.state.user} />
     ) : (
@@ -42,7 +54,9 @@ class App extends Component {
           {sidebarComponent}
           <div className="main-panel">
             <div className="content-wrapper">
-              <AppRoutes />
+              <SnackbarProvider maxSnack={3}>
+                <AppRoutes />
+              </SnackbarProvider>
               {SettingsPanelComponent}
             </div>
             {/* { footerComponent } */}
