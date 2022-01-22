@@ -11,7 +11,7 @@ class Banks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggleModal: true,
+      toggleModal: false,
       toggleUserModal: false,
       rows: [],
       type: "",

@@ -56,7 +56,9 @@ function ModalContent(props) {
   const { updateData, toggleModal, item, type } = props;
   const [name, setName] = React.useState(type == "update" ? item.name : "");
   const [logo, setLogo] = React.useState([]);
-  const [selected, setSelected] = React.useState(require('./../../assets/images/fainance/img.jpeg'));
+  const [selected, setSelected] = React.useState(
+    require("./../../assets/images/fainance/CBOS.jpg")
+  );
   const [loading, setLoading] = React.useState(false);
   const [address, setAddress] = React.useState(
     type == "update" ? item.address : ""
@@ -151,16 +153,30 @@ function ModalContent(props) {
           name="image"
           id="image"
           style={inputStyle}
+          style={{display: 'none'}}
           className="form-control"
           placeholder="شعار البنك"
           onChange={handleValueChange}
           required={type == "update" ? false : true}
         />
-        <div class="card shadow d-flex">
-          <span> {"mkmmkmmkmmkmkmkmkmkmmmkmkmkmkmmmmmmkkkmmkmm"} </span>
-          <label style={{cursor: 'pointer'}} for="image">
-            {" "}
-            <img src={selected} style={{ width: 100, height: 100 }} />{" "}
+        <div className="row d-flex">
+          <label style={{ display: 'flex', flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+            <span style={{fontSize: 18, color: "#e3e3e3"}}> {" شعار البنك:  "} </span>
+          </label>
+          <label
+            class="d-flex"
+            style={{
+              flex: 0.5,
+              cursor: "pointer",
+              backgroundColor: "transparent",
+              marginTop: 5,
+              marginBottom: 0,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            for="image"
+          >
+            <img src={selected} style={{ width: 100, height: 100, borderRadius: 10, marginTop: 10, marginBottom: 10 }} />
           </label>
         </div>
         <div
