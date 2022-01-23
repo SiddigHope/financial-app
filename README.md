@@ -8,9 +8,9 @@ esaily integrated with other banks and financial institutions
 
 # Screenshots
 
-<div style={{display: flex; flex-direction: row}}>
-  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/home.png" width="270" height="500"  />
-  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/transactions.png" width="270" height="500" />
+<div style={{display: flex}}>
+  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/home.png"  />
+  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/transactions.png" />
   <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/exchangerate.png" width="270" height="500" />
   <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/banks.png" width="270" height="500" />
   <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/users.png" width="270" height="500" />
