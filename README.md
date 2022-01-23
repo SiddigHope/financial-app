@@ -9,9 +9,9 @@ esaily integrated with other banks and financial institutions
 # Screenshots
 
 <div style={{display: flex; flex-direction: row}}>
-  <img src="https://github.com/SiddigHope/FMOH-Covax-Reg/blob/main/screenshots/home.png" />
-  <img src="https://github.com/SiddigHope/FMOH-Covax-Reg/blob/main/screenshots/transactions.png" width="270" height="500" />
-  <img src="https://github.com/SiddigHope/FMOH-Covax-Reg/blob/main/screenshots/exchangerate.png" width="270" height="500" />
-  <img src="https://github.com/SiddigHope/FMOH-Covax-Reg/blob/main/screenshots/banks.png" width="270" height="500" />
-  <img src="https://github.com/SiddigHope/FMOH-Covax-Reg/blob/main/screenshots/users.png" width="270" height="500" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/main/screenshots/home.png" width="270" height="500"  />
+  <img src="https://github.com/SiddigHope/financial-app/blob/main/screenshots/transactions.png" width="270" height="500" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/main/screenshots/exchangerate.png" width="270" height="500" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/main/screenshots/banks.png" width="270" height="500" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/main/screenshots/users.png" width="270" height="500" />
 </div>
