@@ -11,7 +11,7 @@ esaily integrated with other banks and financial institutions
 <div style={{display: flex}}>
   <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/home.png"  />
   <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/transactions.png" />
-  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/exchangerate.png" width="270" height="500" />
-  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/banks.png" width="270" height="500" />
-  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/users.png" width="270" height="500" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/exchangerate.png" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/banks.png" />
+  <img src="https://github.com/SiddigHope/financial-app/blob/master/screenshots/users.png" />
 </div>
