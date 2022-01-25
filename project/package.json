@@ -1,7 +1,7 @@
 {
   "name": "financial-react-app",
   "version": "1.1.0",
-  "homepage": "http://sudahex.com",
+  "homepage": "http://siddighope.github.io/financial-app",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -71,7 +71,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -87,5 +89,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
